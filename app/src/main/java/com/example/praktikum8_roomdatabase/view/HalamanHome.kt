@@ -45,9 +45,11 @@ import com.example.praktikum8_roomdatabase.viewmodel.provider.PenyediaViewModel
 @Composable
 fun HomeScreen(
     navigateToItemEntry: () -> Unit,
+    //edit 5
+    navigateToItemUpdate:(Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
-) {
+){
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
@@ -71,10 +73,13 @@ fun HomeScreen(
                 )
             }
         },
-    ) { innerPadding ->
-        val homeUiState by viewModel.homeUiState.collectAsState()
+    ){
+            innerPadding ->
+        val uiStateSiswa by viewModel.homeUiState.collectAsState()
         BodyHome(
-            itemSiswa = homeUiState.listSiswa,
+            itemSiswa = uiStateSiswa.listSiswa,
+            //edit 6
+            onSiswaClick = navigateToItemUpdate,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
