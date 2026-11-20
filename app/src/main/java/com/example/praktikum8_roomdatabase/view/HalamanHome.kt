@@ -1,5 +1,6 @@
 package com.example.praktikum8_roomdatabase.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,7 +39,7 @@ import com.example.praktikum8_roomdatabase.uicontroller.DestinasiHome
 import com.example.praktikum8_roomdatabase.uicontroller.SiswaTopAppBar
 import com.example.praktikum8_roomdatabase.viewmodel.HomeViewModel.HomeUiState
 import com.example.praktikum8_roomdatabase.viewmodel.HomeViewModel
-import com.example.praktikum8_roomdatabase.viewmodel.PenyediaViewModel
+import com.example.praktikum8_roomdatabase.viewmodel.provider.PenyediaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,12 +85,13 @@ fun HomeScreen(
 @Composable
 fun BodyHome(
     itemSiswa: List<Siswa>,
-    modifier: Modifier = Modifier
-) {
+    //edit 3 : parameter onSiswaClick
+    onSiswaClick: (Int) -> Unit,
+    modifier: Modifier=Modifier){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-    ) {
+    ){
         if (itemSiswa.isEmpty()) {
             Text(
                 text = stringResource(R.string.deskripsi_no_item),
@@ -99,24 +101,28 @@ fun BodyHome(
         } else {
             ListSiswa(
                 itemSiswa = itemSiswa,
+                //edit 4
+                onSiswaClick = {onSiswaClick(it.id)},
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
             )
         }
     }
 }
-
 @Composable
 fun ListSiswa(
-    itemSiswa: List<Siswa>,
-    modifier: Modifier = Modifier
-) {
-    LazyColumn(modifier = modifier) {
-        items(items = itemSiswa, key = { it.id }) { person ->
-            DataSiswa(
-                siswa = person,
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.padding_small))
-            )
+    itemSiswa : List<Siswa>,
+    //edit 1 : tambahkan parameter onSiswaClick
+    onSiswaClick: (Siswa) -> Unit,
+    modifier: Modifier=Modifier
+){
+    LazyColumn(modifier = Modifier){
+        items(items = itemSiswa, key = {it.id}){
+                person -> DataSiswa(
+            siswa = person,
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.padding_small))
+                //edit2 : tambahkan modifikasi clickable
+                .clickable { onSiswaClick(person) })
         }
     }
 }
@@ -125,25 +131,25 @@ fun ListSiswa(
 fun DataSiswa(
     siswa: Siswa,
     modifier: Modifier = Modifier
-) {
+){
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
+    ){
         Column(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
-        ) {
+        ){
             Row(
                 modifier = Modifier.fillMaxWidth()
-            ) {
+            ){
                 Text(
                     text = siswa.nama,
                     style = MaterialTheme.typography.titleLarge,
                 )
                 Spacer(Modifier.weight(1f))
                 Icon(
-                    imageVector = Icons.Default.Phone,
+                    imageVector = Icons.Default.Phone ,
                     contentDescription = null,
                 )
                 Text(
