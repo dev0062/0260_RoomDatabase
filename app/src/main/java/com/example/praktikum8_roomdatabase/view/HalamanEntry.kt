@@ -29,7 +29,7 @@ import com.example.praktikum8_roomdatabase.uicontroller.DestinasiNavigasi
 import com.example.praktikum8_roomdatabase.uicontroller.SiswaTopAppBar
 import com.example.praktikum8_roomdatabase.viewmodel.DetailSiswa
 import com.example.praktikum8_roomdatabase.viewmodel.EntryViewModel
-import com.example.praktikum8_roomdatabase.viewmodel.PenyediaViewModel
+import com.example.praktikum8_roomdatabase.viewmodel.provider.PenyediaViewModel
 import com.example.praktikum8_roomdatabase.viewmodel.UIStateSiswa
 import kotlinx.coroutines.launch
 
